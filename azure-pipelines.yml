@@ -1,14 +1,27 @@
+name: Java Maven Build
 
-```yaml
-trigger:
-  - main
-pool:
-  vmImage: ubuntu-latest
-steps:
-  - script: echo Hello, world!
-    displayName: Run a one-line script
-  - script: |
-      echo Add other tasks to build, test, and deploy your project.
-      echo See https://aka.ms/yaml
-    displayName: Run a multi-line script
-```
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Debug files
+        run: ls -R
+
+      - name: Build with Maven
+        run: mvn clean package
+        # working-directory: myapp   # uncomment and set if pom.xml is inside a folder
