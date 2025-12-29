@@ -1,4 +1,4 @@
-name: Hello World Action
+name: Java Maven Build
 
 on:
   push:
@@ -6,9 +6,22 @@ on:
       - main
 
 jobs:
-  hello-job:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Print Hello World
-        run: echo "Hello World from GitHub Actions!"
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Debug files
+        run: ls -R
+
+      - name: Build with Maven
+        run: mvn clean package
+        # working-directory: myapp   # uncomment if pom.xml is in subfolder
