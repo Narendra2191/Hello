@@ -1,0 +1,27 @@
+name: Java Maven Build
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Debug files
+        run: ls -R   # see where pom.xml is located
+
+      - name: Build with Maven
+        run: mvn clean package
+        # working-directory: myapp   # uncomment if pom.xml is in a subfolder
